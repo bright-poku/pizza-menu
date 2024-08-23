@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-
 const pizzaData = [
     {
         name: "Focaccia",
@@ -45,25 +42,3 @@ const pizzaData = [
         soldOut: false,
     },
 ];
-
-function App() {
-    return( <div>
-        <h1>Hello World!</h1>
-        <Pizza/>
-        <Pizza/>
-    </div>
-    );
-}
-
-function Pizza(props) {
-    return ( <div>
-            <img src='pizzas/spinaci.jpg' alt="Pizza Spinaci" />
-        <h2>Pizza Spinachi</h2>
-        <p>Tomato, mozarella, spinach, and ricotta cheese</p>
-    </div>
-    );
-}
-
-// React v18
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
