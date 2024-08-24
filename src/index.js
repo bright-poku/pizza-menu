@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
+
 const pizzaData = [
     {
         name: "Focaccia",
@@ -50,7 +51,6 @@ const pizzaData = [
 // reusing components
 function App() {
     return( <div className="container">
-        <h1>Hello World!</h1>
         <Header/>
         <Menu />
         <Footer/>
@@ -69,32 +69,31 @@ function Header () {
 }
 
 function Menu() {
+    const pizzas = pizzaData;
+    const numPizzas = pizzas.length;
+
     return (
         <main className="menu">
             <h2>Our Menu</h2>
-            <ul className="pizzas">
-                {pizzaData.map((pizza) => (
-                    <Pizza pizzaObj={pizza} key={pizza.name} />
-                ))}
-            </ul>
-            {/*<Pizza name='Pizza Spinaci'
-                   ingredients='Tomato, mozarella, spinach, and ricotta cheese'
-                   photoName="pizzas/spinaci.jpg"
-                   price={15}
-            />
 
-            <Pizza name='Pizza Funghi'
-                   ingredients='Tomato, mushrooms, and onion'
-                   price={25}
-                   photoName="pizzas/funghi.jpg"
-             />
-             */}
+            {/* only render if number of pizzas is greater than 0*/}
+            {numPizzas > 0 ? (
+                <ul className="pizzas">
+                    {/*  pizzaData.map creates a new array to loop through the data */}
+                    {pizzas.map((pizza) => (
+                        <Pizza pizzaObj={pizza} key={pizza.name}/>
+                    ))}
+                </ul>
+            ) : <p>We're still working on our menu. Please come back later :) </p> }
         </main>
     );
 }
 
 function Pizza(props) {
     console.log(props);
+
+    if(props.pizzaObj.soldOut) return null;
+
     return (
         <div className="pizza">
             <li>
@@ -115,20 +114,28 @@ function Footer() {
     const closeHour = 22;
     const isOpen = hour >= openHour && hour <= closeHour;
     console.log(isOpen);
-    // if (hour  >= openHour && hour <= closeHour) {
-    //     alert("we're currently open!")
-    // } else (
-    //     alert("Sorry, we're currently closed!")
-    // )
 
     return (
         <footer className="footer">
-            {new Date().toLocaleTimeString()}. Come vist us! We're currently open!
+            {/*{new Date().toLocaleTimeString()}. Come vist us! We're currently open!*/}
+            {isOpen ? (<Order openHour={openHour} closeHour={closeHour} />) : (
+                <p>We're happy to welcome you between {openHour}:00 and {closeHour}:00.</p>
+            )}
         </footer>
     );
 }
 
+function Order(props) {
+    return (
+        <div className="order">
+            <p>
+                We're open until {props.closeHour}:00. Come visit us or order online.
+            </p>
+            <button className="btn">Order</button>
+        </div>
+    );
+}
 
 // React v18
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<App/>);
